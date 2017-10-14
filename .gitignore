@@ -1,0 +1,15 @@
+.*
+!.gitignore
+
+/Debug/*.exe
+/Debug/*.ilk
+/Debug/*.pdb
+/Debug/*.exp
+/Debug/*.lib
+/Debug/Student_DLL.dll
+
+/Image_editor/Debug/
+/Image_editor/Release/
+
+/Student_DLL/Debug/
+/Student_DLL/Release/
