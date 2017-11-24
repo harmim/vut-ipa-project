@@ -37,6 +37,50 @@ typedef void (*Ipa_algorithm)(
 );
 
 
+//int xGradient(Mat image, int x, int y)
+//{
+//	return image.at<uchar>(y - 1, x - 1) +
+//		2 * image.at<uchar>(y, x - 1) +
+//		image.at<uchar>(y + 1, x - 1) -
+//		image.at<uchar>(y - 1, x + 1) -
+//		2 * image.at<uchar>(y, x + 1) -
+//		image.at<uchar>(y + 1, x + 1);
+//}
+//
+//
+//int yGradient(Mat image, int x, int y)
+//{
+//	return image.at<uchar>(y - 1, x - 1) +
+//		2 * image.at<uchar>(y - 1, x) +
+//		image.at<uchar>(y - 1, x + 1) -
+//		image.at<uchar>(y + 1, x - 1) -
+//		2 * image.at<uchar>(y + 1, x) -
+//		image.at<uchar>(y + 1, x + 1);
+//}
+
+
+int xGradient(Mat image, int x, int y, int i)
+{
+	return image.at<cv::Vec3b>(y - 1, x - 1)[i] +
+		2 * image.at<cv::Vec3b>(y, x - 1)[i] +
+		image.at<cv::Vec3b>(y + 1, x - 1)[i] -
+		image.at<cv::Vec3b>(y - 1, x + 1)[i] -
+		2 * image.at<cv::Vec3b>(y, x + 1)[i] -
+		image.at<cv::Vec3b>(y + 1, x + 1)[i];
+}
+
+
+int yGradient(Mat image, int x, int y, int i)
+{
+	return image.at<cv::Vec3b>(y - 1, x - 1)[i] +
+		2 * image.at<cv::Vec3b>(y - 1, x)[i] +
+		image.at<cv::Vec3b>(y - 1, x + 1)[i] -
+		image.at<cv::Vec3b>(y + 1, x - 1)[i] -
+		2 * image.at<cv::Vec3b>(y + 1, x)[i] -
+		image.at<cv::Vec3b>(y + 1, x + 1)[i];
+}
+
+
 int main(int argc, char** argv)
 {
 	unsigned __int64 cycles_start = 0;
@@ -79,9 +123,40 @@ int main(int argc, char** argv)
 		Ipa_algorithm f = (Ipa_algorithm) GetProcAddress(hInstLibrary, "ipa_algorithm");
 		if (f)
 		{
-			counter.start();
-			f(image.data, output.data, image.cols, image.rows, argc, argv);
-			counter.print();
+			//counter.start();
+			//f(image.data, output.data, image.cols, image.rows, argc, argv);
+			//counter.print();
+		}
+	}
+
+	for (int y = 0; y < image.rows; y++)
+		for (int x = 0; x < image.cols; x++)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				output.at<cv::Vec3b>(y, x)[i] = 0.0;
+			}
+			//output.at<uchar>(y, x) = 0.0;
+		}
+
+	int gx, gy, sum;
+	for (int y = 1; y < image.rows - 1; y++) {
+		for (int x = 1; x < image.cols - 1; x++) {
+			/*gx = xGradient(image, x, y);
+			gy = yGradient(image, x, y);
+			sum = abs(gx) + abs(gy);
+			sum = sum > 255 ? 255 : sum;
+			sum = sum < 0 ? 0 : sum;
+			output.at<uchar>(y, x) = sum;*/
+			for (int i = 0; i < 3; i++)
+			{
+				gx = xGradient(image, x, y, i);
+				gy = yGradient(image, x, y, i);
+				sum = abs(gx) + abs(gy);
+				sum = sum > 255 ? 255 : sum;
+				sum = sum < 0 ? 0 : sum;
+				output.at<cv::Vec3b>(y, x)[i] = sum;
+			}
 		}
 	}
 
