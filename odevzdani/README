@@ -1,0 +1,25 @@
+Algoritmus jsem implementoval pouze v C++/C.
+Program nedělá přesně to, co by dělat měl. Bohužel nemám žádné znalosti o zpracovnání obrazu
+a kurs IPA takové prekvizitní znalosti nevyžaduje a studentům takové studijní materiály ani neposkytuje.
+Snažil jsem se implementovat algoritmus řešící zadaný problém v jazyce C++/C tak, abych
+ho mohl později přepsat do asembleru (tj. nepoužíval jsem žádné složitější konstrukce jazyka C++/C),
+protže v C++/C jsem mohl program jednodušeji ladit.
+
+Odezvdaný program (viz adresář bin a src, opencv dll kvůli velikosti nepřikládám, žádné jiné
+než ty, které jsou v šabloně projektu nepoužívám) se nějakým způsobem snaží vyhlazovat detekované hrany,
+ale asi ne tak, jak by měl.
+
+I když bych se rád pokusil algoritmus optimalizovat pomocí vektorových instrukcí, tak by to asi nemělo
+smysl, když program nedělá to, co má. Z toho důvodu jsem algoritmus ani nepřepisoval do asembleru
+a nepsal dokumentaci. Více času snaze o vyřešení projektu jsem už nemohl věnovat.
+
+Odevzdané soubory:
+* bin/Image_editor.exe - přeložený program
+* bin/Student_DLL.dll - přeložená DLL knihovna ze souboru xlogin00.s
+* src/xlogin00.s - funkce ipa_algorithm v asembleru, která nic nedělá a nepoužívá se
+* src/Image_editor.cpp - pokus o implementaci algoritmu v C++/C
+* prezentace.pdf - prezentace s popisem mého řešení
+
+Popis mého řešení (více viz prezentace.pdf):
+Obrázek jsem nejprve převedl do odstínů šedé, následně jsem pomocí Sobelova filtru detekoval hrany.
+Potom jsem se snažil algoritmem Xiaolin Wu's provést vyhlazení hran, což se mi nepovedlo.

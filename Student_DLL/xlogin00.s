@@ -25,7 +25,7 @@ DllMain:
 
 
 ipa_algorithm:
-	 ENTER 0, 0
+	ENTER 0, 0
 
 	%define input_data [EBP + 8]
 	%define output_data [EBP + 12]
@@ -34,9 +34,7 @@ ipa_algorithm:
 	%define argc [EBP + 24]
 	%define argv [EBP + 28]
 
-	MOV EBX, input_data
-	MOV [EBX], DWORD 42
+	; TODO
 
 	LEAVE
-	; RET 24
 	RET 0
